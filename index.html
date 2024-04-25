@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Verse Memorization Helper</title>
+    <style>
+        .correct { color: green; }
+        .incorrect { color: red; }
+        /* Additional styles as needed */
+    </style>
+</head>
+<body>
+    <h1>Verse Memorization Helper</h1>
+    <p id="verse-display"></p>
+    <input type="text" id="user-input" oninput="updateDisplay()" placeholder="Type here...">
+    <button onclick="nextVerse()">Next Verse</button>
+    <button onclick="toggleMode()">Toggle Mode</button>
+    <button onclick="clearInput()">Clear</button>
+
+    <script src="script.js"></script>
+</body>
+</html>
