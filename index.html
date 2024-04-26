@@ -2,21 +2,42 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Ensure proper scaling on mobile devices -->
     <title>Verse Memorization Helper</title>
     <style>
+        body, input, button {
+            font-family: 'Arial', sans-serif; /* Consistent font for all text */
+            font-size: 1.25rem; /* Larger text size for better readability */
+        }
         .correct { color: green; }
         .incorrect { color: red; }
         .hidden { color: white; } /* Hide text by making it white */
+        input, button {
+            padding: 10px; /* More padding for better touch interaction */
+            margin: 5px; /* Spacing around buttons and input field */
+            width: auto; /* Avoid too wide elements on mobile */
+            display: block; /* Stack elements vertically */
+            max-width: 90%; /* Limit max width for better layout on small screens */
+            box-sizing: border-box; /* Include padding and border in the width */
+        }
+        #verse-display {
+            margin-bottom: 20px; /* Spacing below the verse display */
+        }
+        button {
+            cursor: pointer; /* Pointer cursor on hover */
+        }
     </style>
 </head>
 <body>
     <h1>Verse Memorization Helper</h1>
     <p id="verse-display"></p>
     <input type="text" id="user-input" oninput="updateDisplay()" placeholder="Type here...">
+    <button onclick="prevVerse()">Previous Verse</button>
     <button onclick="nextVerse()">Next Verse</button>
     <button onclick="toggleMode()">Toggle Mode</button>
     <button onclick="clearInput()">Clear</button>
 
+    <script src="data.js"></script>
     <script src="script.js"></script>
 </body>
 </html>

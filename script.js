@@ -1,21 +1,45 @@
+document.addEventListener('DOMContentLoaded', function() {
+    updateDisplay();  // Initialize display when the document is ready
+
+    document.addEventListener('keydown', function(event) {
+        if (event.key === "Escape") {
+            // If the Escape key is pressed, run the clearInput function
+            clearInput();
+        } else if (event.key === "ArrowLeft") {  // Check for the left arrow key
+            // If the left arrow key is pressed, run the prevVerse function
+            prevVerse();
+        } else if (event.key === "Enter" || event.key === "ArrowRight") {
+            // If the Enter key is pressed, run the nextVerse function
+            nextVerse();
+        }
+    
+    });
+});
+
 const modes = ['visible', 'half', 'invisible'];
 let currentModeIndex = 0;
 let hideEvenWords = true; // Randomly decide to hide even or odd words
-let verses = [
-    "For the land is full of silver and gold, and there is no end to their treasures.",
-    "Their land is also full of horses, and there is no end to their chariots."
-];
 let verseIndex = 0;
+
+// Accessing the verses array from "Chapter 1" of "Isaiah" in the books object
+let verses = books["Isaiah"]["Chapter 1"];
 
 function updateDisplay() {
     const user_input = document.getElementById('user-input').value.replace(/\s+/g, '').toLowerCase();
-    const words = verses[verseIndex].split(' ');
     const verseDisplay = document.getElementById('verse-display');
     verseDisplay.innerHTML = ''; // Clear current display
 
+    // Check if the current verse index is within the bounds of the verses array
+    if (verseIndex >= verses.length) {
+        verseIndex = 0; // Reset to first verse if out of bounds
+    }
+
+    // Splitting the current verse into words based on spaces
+    const words = verses[verseIndex].split(' ');
+
     words.forEach((word, i) => {
         const span = document.createElement('span');
-        const firstLetter = user_input[i];
+        const firstLetter = user_input[i] || '';
 
         span.textContent = word + ' ';
         span.className = 'hidden';  // Start with all text hidden
@@ -30,7 +54,6 @@ function applyVisibilityMode(span, index, firstLetter, word) {
     const evenOrOdd = hideEvenWords ? index % 2 === 0 : index % 2 !== 0;
 
     if (currentModeIndex === 1 && evenOrOdd) { // Half visible mode
-        // Conditionally apply hidden class based on even or odd setting
         span.className = 'hidden';
     } else if (currentModeIndex === 2) { // All hidden mode
         span.className = 'hidden';
@@ -38,7 +61,6 @@ function applyVisibilityMode(span, index, firstLetter, word) {
         span.className = ''; // Make visible if not in hidden mode
     }
 
-    // Adjust color based on correctness of input
     if (firstLetter) {
         if (word[0].toLowerCase() === firstLetter) {
             span.className = 'correct';
@@ -49,23 +71,34 @@ function applyVisibilityMode(span, index, firstLetter, word) {
 }
 
 function nextVerse() {
-    verseIndex = (verseIndex + 1) % verses.length;
+    verseIndex = (verseIndex + 1) % verses.length; // Cycle through verses
     document.getElementById('user-input').value = ''; // Clear input
     updateDisplay();
 }
 
+function prevVerse() {
+    if (verseIndex > 0) {
+        verseIndex--;  // Move to the previous verse
+    } else {
+        verseIndex = verses.length - 1;  // Optional: Wrap around to the last verse
+    }
+    document.getElementById('user-input').value = '';  // Clear input
+    updateDisplay();
+}
+
+
 function toggleMode() {
     clearInput();
-    currentModeIndex = (currentModeIndex + 1) % modes.length;
-    if (currentModeIndex === 1) { // Only change random state when entering 'half' mode
-        hideEvenWords = Math.random() < 0.5; // Randomly choose true or false
-    }
+    currentModeIndex = (currentModeIndex + 1) % modes.length; // Cycle through modes
     console.log(`Mode: ${modes[currentModeIndex]}, Even Hidden: ${hideEvenWords}`);
     updateDisplay();
 }
 
 function clearInput() {
     document.getElementById('user-input').value = '';
+    if (currentModeIndex === 1) {
+        hideEvenWords = !hideEvenWords; // Toggle hiding even or odd words
+    }
     updateDisplay();
 }
 
