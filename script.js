@@ -16,6 +16,49 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
+document.addEventListener('DOMContentLoaded', function() {
+    const chapterData = books["Isaiah"]["Chapter 1"]; // Assuming data.js is already included
+    const chapterTitle = document.getElementById('chapter-title');
+    const versesContainer = document.getElementById('verses-container');
+
+    chapterTitle.textContent = "Chapter 1"; // Set the chapter title dynamically if needed
+
+    chapterData.forEach((verse, index) => {
+        const box = document.createElement('div');
+        box.className = 'verse-box';
+        box.textContent = `Verse ${index + 1}`;
+        box.addEventListener('click', () => {
+            window.location.href = `verse.html?chapter=1&verse=${index + 1}`; // Assuming verse.html handles individual verse display
+        });
+        versesContainer.appendChild(box);
+    });
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    const bookName = "Isaiah"; // Example book
+    const chapterNumber = "1"; // Example chapter
+
+    const verses = books[bookName]["Chapter " + chapterNumber];
+    const chapterTitle = document.getElementById('chapter-title');
+    const versesContainer = document.getElementById('verses-container');
+
+    chapterTitle.textContent = `${bookName} - Chapter ${chapterNumber}`;
+
+    verses.forEach((verse, index) => {
+        const verseBox = document.createElement('div');
+        verseBox.className = 'verse-box';
+        verseBox.textContent = extractFirstLetters(verse);
+        verseBox.onclick = () => {
+            window.location.href = `verse.html?book=${bookName}&chapter=${chapterNumber}&verse=${index + 1}`;
+        };
+        versesContainer.appendChild(verseBox);
+    });
+
+    function extractFirstLetters(verse) {
+        return verse.split(/\s+/).map(word => word[0]).join('');
+    }
+});
+
 const modes = ['visible', 'half', 'invisible'];
 let currentModeIndex = 0;
 let hideEvenWords = true; // Randomly decide to hide even or odd words

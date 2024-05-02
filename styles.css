@@ -1,0 +1,26 @@
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr); /* 5 columns of equal width */
+    gap: 5px; /* Reduced gap between boxes */
+    padding: 5px; /* Padding around the grid */
+    margin: auto; /* Center the grid horizontally */
+    max-width: 100%; /* Ensures the grid container does not exceed the width of its container */
+}
+
+.verse-box {
+    border: 1px solid #ccc;
+    padding: 10px; /* Increased padding */
+    text-align: center;
+    cursor: pointer;
+    background-color: #f0f0f0;
+    word-wrap: break-word; /* Ensure text wraps inside the box */
+    height: auto; /* Allow height to adjust based on content */
+    box-sizing: border-box; /* Include padding and border in the width */
+    font-size: 1.2rem; /* Increased font size for better readability */
+    flex-grow: 1; /* Allows the box to grow to fill the space */
+    min-width: 0; /* Overcomes minimum sizing issues on smaller screens */
+}
+
+.verse-box:nth-child(5n) {
+    background-color: #add8e6; /* Light blue background for every 5th box */
+}

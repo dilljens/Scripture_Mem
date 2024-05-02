@@ -2,42 +2,51 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Ensure proper scaling on mobile devices -->
-    <title>Verse Memorization Helper</title>
-    <style>
-        body, input, button {
-            font-family: 'Arial', sans-serif; /* Consistent font for all text */
-            font-size: 1.25rem; /* Larger text size for better readability */
-        }
-        .correct { color: green; }
-        .incorrect { color: red; }
-        .hidden { color: white; } /* Hide text by making it white */
-        input, button {
-            padding: 10px; /* More padding for better touch interaction */
-            margin: 5px; /* Spacing around buttons and input field */
-            width: auto; /* Avoid too wide elements on mobile */
-            display: block; /* Stack elements vertically */
-            max-width: 90%; /* Limit max width for better layout on small screens */
-            box-sizing: border-box; /* Include padding and border in the width */
-        }
-        #verse-display {
-            margin-bottom: 20px; /* Spacing below the verse display */
-        }
-        button {
-            cursor: pointer; /* Pointer cursor on hover */
-        }
-    </style>
+    <title>Chapter Overview</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h1>Verse Memorization Helper</h1>
-    <p id="verse-display"></p>
-    <input type="text" id="user-input" oninput="updateDisplay()" placeholder="Type here...">
-    <button onclick="prevVerse()">Previous Verse</button>
-    <button onclick="nextVerse()">Next Verse</button>
-    <button onclick="toggleMode()">Toggle Mode</button>
-    <button onclick="clearInput()">Clear</button>
+    <h1 id="chapter-title">Current Chapter</h1>
+    <div id="verses-container" class="grid-container"></div>
 
     <script src="data.js"></script>
-    <script src="script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const bookName = "Isaiah"; // Example book
+            const chapterNumber = "1"; // Example chapter
+
+            const verses = books[bookName]["Chapter " + chapterNumber];
+            const chapterTitle = document.getElementById('chapter-title');
+            const versesContainer = document.getElementById('verses-container');
+
+            chapterTitle.textContent = `${bookName} - Chapter ${chapterNumber}`;
+
+            function extractFirstLetters(verse) {
+                // This function captures the first letter of each word along with any immediately following punctuation.
+                const pattern = /\b(\w)[\w'-]*([.,;:!?]?\b)/g;
+                let match;
+                let result = '';
+
+                while (match = pattern.exec(verse)) {
+                    // Concatenate the first letter and any immediate punctuation
+                    result += match[1] + (match[2] || '');
+                }
+
+                return result;
+            }
+
+
+
+            verses.forEach((verse, index) => {
+                const verseBox = document.createElement('div');
+                verseBox.className = 'verse-box';
+                verseBox.textContent = extractFirstLetters(verse);
+                verseBox.onclick = () => {
+                    window.location.href = `verse.html?book=${bookName}&chapter=${chapterNumber}&verse=${index + 1}`;
+                };
+                versesContainer.appendChild(verseBox);
+            });
+        });
+    </script>
 </body>
 </html>
