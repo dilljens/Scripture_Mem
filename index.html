@@ -6,49 +6,54 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h1 id="chapter-title">Current Chapter</h1>
-    <div id="verses-container" class="grid-container"></div>
+    <h1 id="book-title">Isaiah</h1>
+    <div id="chapters-container" class="grid-container"></div>
 
     <script src="data.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const bookName = "Isaiah"; // Example book
-            const chapterNumber = "1"; // Example chapter
+            const urlParams = new URLSearchParams(window.location.search);
+            // local data save doesn't work
+            // const lastBook = localStorage.getItem('lastBook');
+            // const lastChapter = localStorage.getItem('lastChapter');
+            
+            // const currentBook = urlParams.get('book');
+            // const currentChapter = urlParams.get('chapter');
 
-            const verses = books[bookName]["Chapter " + chapterNumber];
-            const chapterTitle = document.getElementById('chapter-title');
-            const versesContainer = document.getElementById('verses-container');
+            // console.log("Last Book:", lastBook, "Last Chapter:", lastChapter);
+            // console.log("Current Book:", currentBook, "Current Chapter:", currentChapter);
 
-            chapterTitle.textContent = `${bookName} - Chapter ${chapterNumber}`;
+            // // Only redirect if there's a mismatch and we are not on the intended page
+            // if (lastBook && lastChapter && (lastBook !== currentBook || lastChapter !== currentChapter)) {
+            //     console.log("Redirecting to saved chapter...");
+            //     window.location.href = `chapter.html?book=${lastBook}&chapter=${lastChapter}`;
+            // } else {
+            //     console.log("No redirection needed.");
+            // }
 
-            function extractFirstLetters(verse) {
-                // This function captures the first letter of each word along with any immediately following punctuation.
-                const pattern = /\b(\w)([\w'-]*)([.,;:!?]*)/g;
-                let match;
-                let result = '';
+            const bookName = "Isaiah"; // Set this dynamically as needed
+            const chapters = books[bookName]; // Ensure books data is correctly referenced
+            const bookTitle = document.getElementById('book-title');
+            const chaptersContainer = document.getElementById('chapters-container');
 
-                while (match = pattern.exec(verse)) {
-                    // Concatenate the first letter and any immediate punctuation
-                    result += match[1] + (match[3] || '');
-                }
+            bookTitle.textContent = bookName;
 
-                return result;
-            }
+            Object.keys(chapters).forEach((chapterName) => {
+                const chapterBox = document.createElement('div');
+                chapterBox.className = 'chapter-box';
+                chapterBox.textContent = chapterName;
+                const chapterNumber = chapterName.match(/\d+/)[0]; // Extracts number from chapterName
 
-
-
-
-
-            verses.forEach((verse, index) => {
-                const verseBox = document.createElement('div');
-                verseBox.className = 'verse-box';
-                verseBox.textContent = extractFirstLetters(verse);
-                verseBox.onclick = () => {
-                    window.location.href = `verse.html?book=${bookName}&chapter=${chapterNumber}&verse=${index + 1}`;
+                chapterBox.onclick = () => {
+                    localStorage.setItem('lastBook', bookName);
+                    localStorage.setItem('lastChapter', chapterNumber);
+                    console.log("Saving and redirecting to:", bookName, chapterNumber);
+                    window.location.href = `chapter.html?book=${bookName}&chapter=${chapterNumber}`;
                 };
-                versesContainer.appendChild(verseBox);
+                chaptersContainer.appendChild(chapterBox);
             });
         });
+
     </script>
 </body>
 </html>

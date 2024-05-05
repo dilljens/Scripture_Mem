@@ -1,63 +1,53 @@
 document.addEventListener('DOMContentLoaded', function() {
-    updateDisplay();  // Initialize display when the document is ready
+    // Fetch URL parameters and set default chapter if none is provided
+    const urlParams = new URLSearchParams(window.location.search);
+    const bookName = urlParams.get('book') || "Isaiah";  // Allows dynamic book selection, defaults to Isaiah
+    const chapterNumber = urlParams.get('chapter') || "1";  // Defaults to Chapter 1 if no parameter
 
-    document.addEventListener('keydown', function(event) {
-        if (event.key === "Escape") {
-            // If the Escape key is pressed, run the clearInput function
-            clearInput();
-        } else if (event.key === "ArrowLeft") {  // Check for the left arrow key
-            // If the left arrow key is pressed, run the prevVerse function
-            prevVerse();
-        } else if (event.key === "Enter" || event.key === "ArrowRight") {
-            // If the Enter key is pressed, run the nextVerse function
-            nextVerse();
-        }
-    
-    });
-});
-
-document.addEventListener('DOMContentLoaded', function() {
-    const chapterData = books["Isaiah"]["Chapter 1"]; // Assuming data.js is already included
+    // Safely access chapter data, fallback to an empty array if data is missing
+    const verses = (books[bookName] && books[bookName]["Chapter " + chapterNumber]) || [];
     const chapterTitle = document.getElementById('chapter-title');
     const versesContainer = document.getElementById('verses-container');
+    const bookLink = document.getElementById('book-link');
 
-    chapterTitle.textContent = "Chapter 1"; // Set the chapter title dynamically if needed
+    // Configure the chapter title
+    chapterTitle.textContent = '';  // Clear existing content
+    bookLink.textContent = bookName;  // Set the clickable book name
+    chapterTitle.appendChild(bookLink);
+    chapterTitle.append(` - Chapter ${chapterNumber}`);  // Corrected typo and enhanced readability
 
-    chapterData.forEach((verse, index) => {
-        const box = document.createElement('div');
-        box.className = 'verse-box';
-        box.textContent = `Verse ${index + 1}`;
-        box.addEventListener('click', () => {
-            window.location.href = `verse.html?chapter=1&verse=${index + 1}`; // Assuming verse.html handles individual verse display
-        });
-        versesContainer.appendChild(box);
-    });
-});
+    // Navigate back to index.html when clicking on the book name
+    bookLink.onclick = function() {
+        window.location.href = 'index.html';
+    };
 
-document.addEventListener('DOMContentLoaded', function() {
-    const bookName = "Isaiah"; // Example book
-    const chapterNumber = "1"; // Example chapter
-
-    const verses = books[bookName]["Chapter " + chapterNumber];
-    const chapterTitle = document.getElementById('chapter-title');
-    const versesContainer = document.getElementById('verses-container');
-
-    chapterTitle.textContent = `${bookName} - Chapter ${chapterNumber}`;
-
-    verses.forEach((verse, index) => {
-        const verseBox = document.createElement('div');
-        verseBox.className = 'verse-box';
-        verseBox.textContent = extractFirstLetters(verse);
-        verseBox.onclick = () => {
-            window.location.href = `verse.html?book=${bookName}&chapter=${chapterNumber}&verse=${index + 1}`;
-        };
-        versesContainer.appendChild(verseBox);
-    });
-
+    // Function to extract the first letter of each word along with any immediate punctuation
     function extractFirstLetters(verse) {
-        return verse.split(/\s+/).map(word => word[0]).join('');
+        const pattern = /\b(\w)([\w'-]*)([.,;:!?]*)/g;
+        let result = '';
+        let match;
+        while (match = pattern.exec(verse)) {
+            result += match[1] + (match[3] || '');
+        }
+        return result;
+    }
+
+    // Display each verse as a clickable box that leads to a detailed verse view
+    if (verses.length === 0) {
+        versesContainer.textContent = 'No verses available for this chapter.';
+    } else {
+        verses.forEach((verse, index) => {
+            const verseBox = document.createElement('div');
+            verseBox.className = 'verse-box';
+            verseBox.textContent = extractFirstLetters(verse);
+            verseBox.onclick = () => {
+                window.location.href = `verse.html?book=${bookName}&chapter=${chapterNumber}&verse=${index + 1}`;
+            };
+            versesContainer.appendChild(verseBox);
+        });
     }
 });
+
 
 const modes = ['visible', 'half', 'invisible'];
 let currentModeIndex = 0;

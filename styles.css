@@ -24,3 +24,31 @@
 .verse-box:nth-child(5n) {
     background-color: #add8e6; /* Light blue background for every 5th box */
 }
+
+.button-container {
+    display: flex;           /* Aligns children (buttons) in a row */
+    justify-content: center; /* Center the buttons horizontally */
+    gap: 0;                  /* Sets zero space between the buttons */
+}
+
+button {
+    padding: 10px 20px; /* Adds padding inside the buttons for better touch */
+    font-size: 16px;    /* Sets a readable font size */
+    cursor: pointer;    /* Changes the mouse cursor to pointer when hovering over the buttons */
+}
+
+.chapter-box {
+    padding: 10px;
+    background-color: #f4f4f4;
+    text-align: center;
+    cursor: pointer;
+}
+
+.chapter-box:hover {
+    background-color: #ddd; /* Lighter color on hover */
+}
+
+h1#book-title {
+    text-align: center;
+    margin-top: 20px;
+}

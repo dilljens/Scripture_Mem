@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Verse Memorization Helper</title>
+    <title>Verse Memorization</title>
     <style>
         body, input, button {
             font-family: 'Arial', sans-serif;
-            font-size: 1.25rem;
+            font-size: 1.5rem;
         }
         .correct { color: green; }
         .incorrect { color: red; }
@@ -16,36 +16,47 @@
             padding: 10px;
             margin: 5px;
             width: auto;
-            display: block;
+            display: inline-block;
             max-width: 90%;
             box-sizing: border-box;
         }
         #verse-display {
-            margin-bottom: 20px;
-        }
-        button {
             cursor: pointer;
+            margin-bottom: 20px;
+            display: block;
+        }
+        #input-clear-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        #navigation-buttons {
+            text-align: center;
+            margin-top: 10px;
         }
     </style>
 </head>
 <body>
     <h1>Verse Memorization Helper</h1>
-    <p id="verse-display"></p>
-    <input type="text" id="user-input" oninput="updateDisplay()" placeholder="Type here...">
-    <button onclick="goToIndex()">Go to Index</button>
-    <button onclick="prevVerse()">Previous Verse</button>
-    <button onclick="nextVerse()">Next Verse</button>
-    <button onclick="toggleMode()">Toggle Mode</button>
-    <button onclick="clearInput()">Clear</button>
+    <p id="verse-display" onclick="goToChapter()"></p>
+    <div id="input-clear-container">
+        <input type="text" id="user-input" oninput="updateDisplay()" placeholder="Type here...">
+        <button onclick="clearInput()">Clear</button>
+    </div>
+    <div id="navigation-buttons">
+        <button onclick="prevVerse()">Previous Verse</button>
+        <button onclick="nextVerse()">Next Verse</button>
+    </div>
+    <button onclick="toggleMode()" style="display: block; margin: auto;">Toggle Mode</button>
 
     <script src="data.js"></script>
     <script>
         const params = new URLSearchParams(window.location.search);
-        const book = params.get('book');  // Get the book from URL
-        const chapter = params.get('chapter');  // Get the chapter number from URL
-        let verseIndex = parseInt(params.get('verse')) - 1;  // Get the verse index and convert to zero-based index
+        const book = params.get('book');
+        const chapter = params.get('chapter');
+        let verseIndex = parseInt(params.get('verse')) - 1;
 
-        let verses = books[book][`Chapter ${chapter}`];  // Assuming the structure from data.js
+        let verses = books[book][`Chapter ${chapter}`];
         let currentModeIndex = 0;
         let hideEvenWords = true;
 
@@ -93,8 +104,8 @@
             updateDisplay();
         }
 
-        function goToIndex() {
-            window.location.href = 'index.html'; // Directs the user back to the index.html page
+        function goToChapter() {
+            window.location.href = 'chapter.html';
         }
 
         document.addEventListener('DOMContentLoaded', updateDisplay);
