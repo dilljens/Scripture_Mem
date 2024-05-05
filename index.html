@@ -14,16 +14,16 @@
         document.addEventListener('DOMContentLoaded', function() {
             const urlParams = new URLSearchParams(window.location.search);
             // local data save doesn't work
-            // const lastBook = localStorage.getItem('lastBook');
-            // const lastChapter = localStorage.getItem('lastChapter');
+            const lastBook = localStorage.getItem('lastBook');
+            const lastChapter = localStorage.getItem('lastChapter');
             
-            // const currentBook = urlParams.get('book');
-            // const currentChapter = urlParams.get('chapter');
+            const currentBook = urlParams.get('book');
+            const currentChapter = urlParams.get('chapter');
 
-            // console.log("Last Book:", lastBook, "Last Chapter:", lastChapter);
-            // console.log("Current Book:", currentBook, "Current Chapter:", currentChapter);
+            console.log("Last Book:", lastBook, "Last Chapter:", lastChapter);
+            console.log("Current Book:", currentBook, "Current Chapter:", currentChapter);
 
-            // // Only redirect if there's a mismatch and we are not on the intended page
+            // Only redirect if there's a mismatch and we are not on the intended page
             // if (lastBook && lastChapter && (lastBook !== currentBook || lastChapter !== currentChapter)) {
             //     console.log("Redirecting to saved chapter...");
             //     window.location.href = `chapter.html?book=${lastBook}&chapter=${lastChapter}`;

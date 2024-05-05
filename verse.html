@@ -105,8 +105,9 @@
         }
 
         function goToChapter() {
-            window.location.href = 'chapter.html';
+            window.location.href = `chapter.html?book=${book}&chapter=${chapter}`;
         }
+
 
         document.addEventListener('DOMContentLoaded', updateDisplay);
     </script>
