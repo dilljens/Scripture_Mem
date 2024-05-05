@@ -16,7 +16,7 @@
     word-wrap: break-word; /* Ensure text wraps inside the box */
     height: auto; /* Allow height to adjust based on content */
     box-sizing: border-box; /* Include padding and border in the width */
-    font-size: 1.2rem; /* Increased font size for better readability */
+    font-size: 1.5rem; /* Increased font size for better readability */
     flex-grow: 1; /* Allows the box to grow to fill the space */
     min-width: 0; /* Overcomes minimum sizing issues on smaller screens */
 }

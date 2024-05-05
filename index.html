@@ -23,17 +23,19 @@
 
             function extractFirstLetters(verse) {
                 // This function captures the first letter of each word along with any immediately following punctuation.
-                const pattern = /\b(\w)[\w'-]*([.,;:!?]?\b)/g;
+                const pattern = /\b(\w)([\w'-]*)([.,;:!?]*)/g;
                 let match;
                 let result = '';
 
                 while (match = pattern.exec(verse)) {
                     // Concatenate the first letter and any immediate punctuation
-                    result += match[1] + (match[2] || '');
+                    result += match[1] + (match[3] || '');
                 }
 
                 return result;
             }
+
+
 
 
 
