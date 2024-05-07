@@ -1,54 +1,53 @@
 .grid-container {
     display: grid;
-    grid-template-columns: repeat(5, 1fr); /* 5 columns of equal width */
-    gap: 5px; /* Reduced gap between boxes */
-    padding: 5px; /* Padding around the grid */
-    margin: auto; /* Center the grid horizontally */
-    max-width: 100%; /* Ensures the grid container does not exceed the width of its container */
+    grid-template-columns: repeat(5, 1fr); /* Always 5 columns */
+    gap: 5px;
+    padding: 5px;
+    margin: auto;
+    width: 100%; /* Ensures the container fits within the parent element */
+    box-sizing: border-box; /* Includes padding and border in the element's total width */
 }
 
-.verse-box {
+.verse-box, .chapter-box {
     border: 1px solid #ccc;
-    padding: 10px; /* Increased padding */
-    text-align: center;
+    padding: 10px;
+    text-align: center; /* Center text for better aesthetics */
     cursor: pointer;
     background-color: #f0f0f0;
-    word-wrap: break-word; /* Ensure text wraps inside the box */
-    height: auto; /* Allow height to adjust based on content */
-    box-sizing: border-box; /* Include padding and border in the width */
-    font-size: 1.5rem; /* Increased font size for better readability */
-    flex-grow: 1; /* Allows the box to grow to fill the space */
-    min-width: 0; /* Overcomes minimum sizing issues on smaller screens */
+    word-wrap: break-word;
+    box-sizing: border-box; /* Includes padding and border in the element's total width and height */
+    font-size: 1.5rem; /* Standard font size for readability */
+    min-width: 0px;
+    min-height: 50px; /* Minimum height to maintain visual consistency */
 }
 
-.verse-box:nth-child(5n) {
-    background-color: #add8e6; /* Light blue background for every 5th box */
+/* Special styling for every fifth box */
+.verse-box:nth-child(5n), .chapter-box:nth-child(5n) {
+    background-color: #add8e6; /* Light blue background */
 }
 
-.button-container {
-    display: flex;           /* Aligns children (buttons) in a row */
-    justify-content: center; /* Center the buttons horizontally */
-    gap: 0;                  /* Sets zero space between the buttons */
+/* Adjust the number of columns and font size based on screen size */
+@media (max-width: 1024px) {
+    .grid-container {
+        grid-template-columns: repeat(3, 1fr); /* 3 columns for tablets and below */
+    }
 }
 
-button {
-    padding: 10px 20px; /* Adds padding inside the buttons for better touch */
-    font-size: 16px;    /* Sets a readable font size */
-    cursor: pointer;    /* Changes the mouse cursor to pointer when hovering over the buttons */
+@media (max-width: 768px) {
+    .grid-container {
+        grid-template-columns: repeat(2, 1fr); /* 2 columns for large phones */
+    }
+    .verse-box, .chapter-box {
+        font-size: 0.9rem; /* slightly smaller font for smaller screens */
+    }
 }
 
-.chapter-box {
-    padding: 10px;
-    background-color: #f4f4f4;
-    text-align: center;
-    cursor: pointer;
-}
-
-.chapter-box:hover {
-    background-color: #ddd; /* Lighter color on hover */
-}
-
-h1#book-title {
-    text-align: center;
-    margin-top: 20px;
+@media (max-width: 480px) {
+    .grid-container {
+        grid-template-columns: 1fr; /* 1 column for small phones */
+    }
+    .verse-box, .chapter-box {
+        padding: 5px; /* reduce padding for very small screens */
+        font-size: 0.8rem; /* further reduce font size for readability */
+    }
 }
