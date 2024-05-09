@@ -25,8 +25,8 @@ def parse_verses(file_path):
     for header_match in chapter_header_pattern.finditer(content):
         chapter_num = "Chapter " + header_match.group(1)
         header_text = header_match.group(2).strip()
-        chapters[chapter_num] = {"header": header_text, "verses": []}
-    
+        chapters[chapter_num] = {"header": '0. ' + header_text, "verses": []}  # Add '0. ' to header
+
     for chapter_match in chapter_pattern.finditer(content):
         chapter_num = "Chapter " + chapter_match.group(1)
         verses_text = chapter_match.group(2)
@@ -46,7 +46,8 @@ def parse_verses(file_path):
 
 def write_to_js(books, output_file):
     with open(output_file, 'w', encoding='utf-8') as js_file:
-        js_content = 'const books = ' + json.dumps(books, indent=4) + ';'
+        # Ensure the JSON uses ASCII characters for correct display of apostrophes
+        js_content = 'const books = ' + json.dumps(books, indent=2, ensure_ascii=False) + ';'
         js_file.write(js_content)
 
 if __name__ == '__main__':

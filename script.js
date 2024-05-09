@@ -23,9 +23,10 @@ document.addEventListener('DOMContentLoaded', function() {
         Object.keys(chapters).forEach(chapter => {
             const chapterBox = document.createElement('div');
             chapterBox.className = 'chapter-box';
+            const headerText = chapters[chapter].header.replace('0. ', ''); // Remove '0. ' from header
             const headerFirstLetters = extractFirstLetters(chapters[chapter].header);
             chapterBox.textContent = `${chapter}: ${headerFirstLetters}`;
-            chapterBox.dataset.fullHeader = `${chapter}: ${chapters[chapter].header}`; // Add full header as data attribute
+            chapterBox.setAttribute('data-full-header', headerText); // Store full header without '0. '
             chapterBox.onclick = () => {
                 window.location.search = `?book=${book}&chapter=${chapter.split(' ')[1]}`;
             };
@@ -66,7 +67,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     function extractFirstLetters(text) {
-        const pattern = /\b(\w)([\w'-]*)([.,;:!?]*)/g;
+        const pattern = /\b(\w)(?:[\w]*)([.,;:!?]*)/g;
         let result = '';
         let first = true; // To handle the first letter differently (assuming it's the verse number)
         
@@ -78,7 +79,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 first = false; // Set first to false after processing the verse number
             } else {
                 // For all other matches, append the first letter and punctuation
-                result += match[1] + (match[3] || '');
+                result += match[1] + (match[2] || '');
             }
         }
         return result;
