@@ -7,8 +7,15 @@ document.addEventListener('DOMContentLoaded', function() {
     const versesContainer = document.getElementById('verses-container');
     const bookLink = document.getElementById('book-link');
 
+    // Set the text for the clickable book link
     bookLink.textContent = bookName;
-    bookLink.onclick = () => loadChapters(bookName); // Load chapters when book name is clicked
+    // Set the onclick event to reload the page without the chapter parameter
+    bookLink.onclick = () => {
+        // This ensures only the book name is in the URL, removing chapter number
+        const newUrlParams = new URLSearchParams();
+        newUrlParams.set('book', bookName);
+        window.location.search = newUrlParams.toString();
+    };
 
     function loadChapters(book) {
         versesContainer.innerHTML = '';
@@ -17,16 +24,19 @@ document.addEventListener('DOMContentLoaded', function() {
             const chapterBox = document.createElement('div');
             chapterBox.className = 'chapter-box';
             const headerFirstLetters = extractFirstLetters(chapters[chapter].header);
-            chapterBox.textContent = `${chapter} - ${headerFirstLetters}`;
+            chapterBox.textContent = `${chapter}: ${headerFirstLetters}`;
+            chapterBox.dataset.fullHeader = `${chapter}: ${chapters[chapter].header}`; // Add full header as data attribute
             chapterBox.onclick = () => {
                 window.location.search = `?book=${book}&chapter=${chapter.split(' ')[1]}`;
             };
             versesContainer.appendChild(chapterBox);
         });
     }
-
+    
+    
     function loadVerses(book, chapter) {
-        chapterTitle.textContent = `${bookName} - ${chapter}`; // Set chapter title
+        chapterTitle.innerHTML = `<span id="book-link" style="cursor: pointer; color: rgb(4, 4, 63);">${bookName}</span> - ${chapter}`;
+        // chapterTitle.textContent = `${bookName} - ${chapter}`; // Set chapter title
         const chapterData = books[book][chapter];
         if (!chapterData || chapterData.verses.length === 0) {
             versesContainer.textContent = 'No verses available for this chapter.';
@@ -48,6 +58,11 @@ document.addEventListener('DOMContentLoaded', function() {
             };
             versesContainer.appendChild(verseBox);
         });
+        // Reattach the click event to the book link
+        const dynamicBookLink = document.getElementById('book-link');
+        dynamicBookLink.onclick = () => {
+            window.location.search = `?book=${bookName}`;
+        };
     }
     
     function extractFirstLetters(text) {

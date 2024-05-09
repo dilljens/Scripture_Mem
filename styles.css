@@ -26,28 +26,45 @@
     background-color: #add8e6; /* Light blue background */
 }
 
-/* Adjust the number of columns and font size based on screen size */
-@media (max-width: 1024px) {
-    .grid-container {
-        grid-template-columns: repeat(3, 1fr); /* 3 columns for tablets and below */
-    }
+.chapter-box {
+    position: relative; /* Ensure the pseudo-element is positioned relative to the chapter box */
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: left;
+    cursor: pointer;
+    background-color: #f0f0f0;
+    word-wrap: break-word;
+    height: auto;
+    box-sizing: border-box;
+    font-size: 1.5rem;
+    transition: color 0.3s; /* Smooth transition for text color */
 }
 
-@media (max-width: 768px) {
-    .grid-container {
-        grid-template-columns: repeat(2, 1fr); /* 2 columns for large phones */
-    }
-    .verse-box, .chapter-box {
-        font-size: 0.9rem; /* slightly smaller font for smaller screens */
-    }
+.chapter-box:hover::after {
+    content: attr(data-full-header); /* Use the full header text */
+    position: absolute;
+    top: 100%; /* Position below the chapter box */
+    left: 0;
+    width: 100%;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    padding: 10px;
+    z-index: 10;
+    white-space: normal;
+    color: black; /* Ensure the text color is readable */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional: add shadow for better visibility */
 }
 
-@media (max-width: 480px) {
-    .grid-container {
-        grid-template-columns: 1fr; /* 1 column for small phones */
-    }
-    .verse-box, .chapter-box {
-        padding: 5px; /* reduce padding for very small screens */
-        font-size: 0.8rem; /* further reduce font size for readability */
-    }
+#chapter-box:hover {
+    color: blue; /* Adjust the color to whatever shade of blue you prefer */
+    cursor: pointer; /* This makes it clear that the element is clickable */
+}
+
+#book-link {
+    color: rgb(144, 4, 63);
+    cursor: pointer; /* Ensures it's obvious it's clickable */
+}
+
+#book-link:hover {
+    color: blue; /* Changes color on hover to indicate interactivity */
 }
