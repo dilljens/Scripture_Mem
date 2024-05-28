@@ -21,10 +21,26 @@
     min-height: 50px; /* Minimum height to maintain visual consistency */
 }
 
-/* Special styling for every fifth box */
-.verse-box:nth-child(5n), .chapter-box:nth-child(5n) {
+/* Special styling for every 25th box */
+.verse-box:nth-child(25n) {
+    background-color: orange; /* Orange background */
+}
+
+/* Special styling for every 5th box except those also styled as every 25th box */
+.verse-box:nth-child(5n):not(:nth-child(25n)) {
     background-color: #add8e6; /* Light blue background */
 }
+
+/* Special styling for every 25th box */
+.chapter-box:nth-child(25n) {
+    background-color: rgb(239, 4, 4); /* Orange background */
+}
+
+/* Special styling for every 5th box except those also styled as every 25th box */
+.chapter-box:nth-child(5n):not(:nth-child(25n)) {
+    background-color: #29b630; 
+}
+
 
 .chapter-box {
     position: relative; /* Ensure the pseudo-element is positioned relative to the chapter box */

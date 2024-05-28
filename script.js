@@ -67,6 +67,9 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     function extractFirstLetters(text) {
+        // Remove all instances of "'s" from the text
+        text = text.replace(/s\b/g, '');
+    
         const pattern = /\b(\w)(?:[\w]*)([.,;:!?]*)/g;
         let result = '';
         let first = true; // To handle the first letter differently (assuming it's the verse number)
@@ -84,8 +87,10 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         return result;
     }
-    
-    
+        
+    // const inputText = "John's book is on the table. Mary's cat is cute!";
+    // const result = extractFirstLetters(inputText);
+    // console.log(result); // Output: "Jb i o t t. Mc i c!"
     if (chapterNumber) {
         loadVerses(bookName, `Chapter ${chapterNumber}`);
     } else {

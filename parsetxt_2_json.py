@@ -51,5 +51,5 @@ def write_to_js(books, output_file):
         js_file.write(js_content)
 
 if __name__ == '__main__':
-    books_data = parse_verses('isaiah.txt')
-    write_to_js(books_data, 'data.js')
+    books_data = parse_verses('c:/Code/Scripture_Mem/isaiah.txt')
+    write_to_js(books_data, 'c:/Code/Scripture_Mem/data.js')
